@@ -11,8 +11,6 @@ namespace ElectrumJSONRPC.Response.Model
         [DataMember]
         public ResultWalletHistoryResponseClass result;
 
-
-
         [DataContract]
         public class ResultWalletHistoryResponseClass
         {
