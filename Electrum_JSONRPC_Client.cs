@@ -6,7 +6,7 @@ using ElectrumJSONRPC.Request.Method;
 using ElectrumJSONRPC.Request.Method.Address;
 using ElectrumJSONRPC.Request.Method.Wallet;
 using ElectrumJSONRPC.Response.Model;
-using MultiTool.LibraryLog;
+using LibraryLog;
 using System;
 using System.Collections.Specialized;
 using System.IO;

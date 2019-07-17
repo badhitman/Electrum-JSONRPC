@@ -1,7 +1,7 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov 
 ////////////////////////////////////////////////
-using MultiTool.LibraryLog;
+using LibraryLog;
 using System;
 
 namespace ElectrumJSONRPC
