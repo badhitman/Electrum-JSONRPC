@@ -8,6 +8,7 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
 {
     /// <summary>
     /// Create a new wallet
+    /// If you want to be prompted for an argument, type '?' or ':' (concealed)
     /// </summary>
     class CreateWalletMethodClass : AbstractMethodClass
     {
