@@ -14,6 +14,9 @@ namespace ElectrumJSONRPC.Response.Model
         [DataContract]
         public class ResultCreateMultisigResponseClass
         {
+            /// <summary>
+            /// Bitcoin address
+            /// </summary>
             [DataMember]
             public string address { get; set; }
 

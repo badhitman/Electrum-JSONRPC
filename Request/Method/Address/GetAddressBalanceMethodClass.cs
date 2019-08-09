@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using ElectrumJSONRPC.Response.Model;
 using System.Collections.Specialized;
 
@@ -11,9 +13,12 @@ namespace ElectrumJSONRPC.Request.Method.Address
     /// ~ ~ ~
     /// Return the balance of any address. Note: This is a walletless server query, results are not checked by SPV.
     /// </summary>
-    class GetAddressBalanceMethodClass : AbstractMethodClass
+    class GetAddressBalanceMethodClass : AbstractMethodClass // commands.py signature getaddressbalance(self, address):
     {
         public override string method => "getaddressbalance";
+        /// <summary>
+        /// Bitcoin address
+        /// </summary>
         public string address;
 
         public GetAddressBalanceMethodClass(Electrum_JSONRPC_Client client)
@@ -25,9 +30,9 @@ namespace ElectrumJSONRPC.Request.Method.Address
         public override object execute(NameValueCollection options)
         {
             options.Add("address", address);
-            string data = Client.Execute(method, options);
+            string jsonrpc_raw_data = Client.Execute(method, options);
             BalanceResponseClass result = new BalanceResponseClass();
-            return result.ReadObject(data);
+            return result.ReadObject(jsonrpc_raw_data);
         }
     }
 }

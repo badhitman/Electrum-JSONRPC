@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using System;
 using System.Collections.Specialized;
 
@@ -11,7 +13,7 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
     /// ~ ~ ~
     /// Create a transaction from json inputs. Inputs must have a redeemPubkey. Outputs must be a list of {'address':address, 'value':satoshi_amount}
     /// </summary>
-    class SerializeJsonTransactionMethodClass : AbstractMethodClass
+    class SerializeJsonTransactionMethodClass : AbstractMethodClass // commands.py signature serialize(self, jsontx):
     {
         public override string method => "serialize";
         public string jsontx;
@@ -23,8 +25,8 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
         public override object execute(NameValueCollection options)
         {
             options.Add("jsontx", jsontx);
-            string data = Client.Execute(method, options);
-            throw new NotImplementedException();
+            string jsonrpc_raw_data = Client.Execute(method, options);
+            throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }
 }

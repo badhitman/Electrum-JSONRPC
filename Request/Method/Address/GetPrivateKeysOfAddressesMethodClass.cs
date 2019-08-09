@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using System;
 using System.Collections.Specialized;
 
@@ -11,10 +13,12 @@ namespace ElectrumJSONRPC.Request.Method.Address
     /// ~ ~ ~
     /// Get private keys of addresses. You may pass a single wallet address, or a list of wallet addresses
     /// </summary>
-    class GetPrivateKeysOfAddressesMethodClass : AbstractMethodClass
+    class GetPrivateKeysOfAddressesMethodClass : AbstractMethodClass // commands.py signature getprivatekeys(self, address, password=None):
     {
         public override string method => "getprivatekeys";
-
+        /// <summary>
+        /// Bitcoin address
+        /// </summary>
         public string address;
         public string password = null;
 
@@ -30,8 +34,8 @@ namespace ElectrumJSONRPC.Request.Method.Address
             if(!string.IsNullOrEmpty(password))
                 options.Add("password", password);
 
-            string data = Client.Execute(method, options);
-            throw new NotImplementedException();
+            string jsonrpc_raw_data = Client.Execute(method, options);
+            throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }
 }

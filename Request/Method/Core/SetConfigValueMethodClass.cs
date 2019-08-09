@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using System;
 using System.Collections.Specialized;
 
@@ -11,10 +13,12 @@ namespace ElectrumJSONRPC.Request.Method.Core
     /// ~ ~ ~
     /// Set a configuration variable. 'value' may be a string or a Python expression
     /// </summary>
-    class SetConfigValueMethodClass : AbstractMethodClass
+    class SetConfigValueMethodClass : AbstractMethodClass // commands.py signature setconfig(self, key, value):
     {
         public override string method => "setconfig";
-
+        /// <summary>
+        /// Variable name
+        /// </summary>
         public string key;
         public string value;
 
@@ -27,8 +31,8 @@ namespace ElectrumJSONRPC.Request.Method.Core
         {
             options.Add("key", key);
             options.Add("value", value);
-            string data = Client.Execute(method, options);
-            throw new NotImplementedException();
+            string jsonrpc_raw_data = Client.Execute(method, options);
+            throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }
 }

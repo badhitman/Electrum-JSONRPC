@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using System;
 using System.Collections.Specialized;
 
@@ -22,8 +24,8 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
 
         public override object execute(NameValueCollection options)
         {
-            string data = Client.Execute(method, options);
-            throw new NotImplementedException();
+            string jsonrpc_raw_data = Client.Execute(method, options);
+            throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }
 }

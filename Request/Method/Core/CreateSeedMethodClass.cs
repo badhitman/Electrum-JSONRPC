@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using System;
 using System.Collections.Specialized;
 
@@ -9,11 +11,11 @@ namespace ElectrumJSONRPC.Request.Method.Core
     /// <summary>
     /// Create a seed
     /// </summary>
-    class CreateSeedMethodClass : AbstractMethodClass
+    class CreateSeedMethodClass : AbstractMethodClass // commands.py signature make_seed(self, nbits=132, language=None, segwit=False):
     {
         public override string method => "make_seed";
 
-        public int nbits = 0;
+        public int? nbits = null;
         public string language = null;
         public bool? segwit = null;
 
@@ -24,7 +26,7 @@ namespace ElectrumJSONRPC.Request.Method.Core
         }
         public override object execute(NameValueCollection options)
         {
-            if (nbits > 0)
+            if (nbits != null && nbits > 0)
                 options.Add("nbits", nbits.ToString());
 
             if (!string.IsNullOrEmpty(language))
@@ -33,8 +35,8 @@ namespace ElectrumJSONRPC.Request.Method.Core
             if (segwit != null)
                 options.Add("segwit", segwit.ToString());
 
-            string data = Client.Execute(method, options);
-            throw new NotImplementedException();
+            string jsonrpc_raw_data = Client.Execute(method, options);
+            throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }
 }

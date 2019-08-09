@@ -9,19 +9,27 @@ using System.Collections.Specialized;
 namespace ElectrumJSONRPC.Request.Method.Core
 {
     /// <summary>
-    /// for the python console
+    /// Convert xtype of a master key. e.g. xpub -> ypub
     /// </summary>
-    class GetHelpMethodClass : AbstractMethodClass
+    public class ConvertXtypeOfMasterKey : AbstractMethodClass // commands.py signature convert_xkey(self, xkey, xtype):
     {
-        public override string method => "help";
-        public GetHelpMethodClass(Electrum_JSONRPC_Client client)
+        public override string method => "convert_xkey";
+        public string xkey;
+        public string xtype;
+
+        public ConvertXtypeOfMasterKey(Electrum_JSONRPC_Client client)
             : base(client)
         {
 
         }
+
         public override object execute(NameValueCollection options)
         {
+            options.Add("xkey", xkey);
+            options.Add("xtype", xtype);
+
             string jsonrpc_raw_data = Client.Execute(method, options);
+
             throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }

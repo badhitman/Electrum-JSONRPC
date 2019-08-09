@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using System;
 using System.Collections.Specialized;
 
@@ -9,13 +11,15 @@ namespace ElectrumJSONRPC.Request.Method.Payment
     /// <summary>
     /// Create a multi-output transaction
     /// </summary>
-    class CreateMultiOutputTransactionMethodClass : AbstractMethodClass
+    class CreateMultiOutputTransactionMethodClass : AbstractMethodClass // commands.py signature paytomany(self, outputs, fee=None, from_addr=None, change_addr=None, nocheck=False, unsigned=False, rbf=None, password=None, locktime=None):
     {
         public override string method => "paytomany";
-        // outputs, fee=None, from_addr=None, change_addr=None, nocheck=False, unsigned=False, rbf=None, password=None, locktime=None
+        /// <summary>
+        /// list of ["address", amount]
+        /// </summary>
         public string outputs;
 
-        public double fee = 0;
+        public double? fee = 0;
         public string from_addr = null;
         public string change_addr = null;
         public bool? nocheck = null;
@@ -29,11 +33,12 @@ namespace ElectrumJSONRPC.Request.Method.Payment
         {
 
         }
+
         public override object execute(NameValueCollection options)
         {
             options.Add("outputs", outputs);
 
-            if (fee > 0)
+            if (fee != null && fee > 0)
                 options.Add("fee", fee.ToString());
 
             if (!string.IsNullOrEmpty(from_addr))
@@ -57,8 +62,8 @@ namespace ElectrumJSONRPC.Request.Method.Payment
             if (!string.IsNullOrEmpty(locktime))
                 options.Add("locktime", locktime);
 
-            string data = Client.Execute(method, options);
-            throw new NotImplementedException();
+            string jsonrpc_raw_data = Client.Execute(method, options);
+            throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }
 }

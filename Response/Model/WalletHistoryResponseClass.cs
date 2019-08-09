@@ -93,6 +93,9 @@ namespace ElectrumJSONRPC.Response.Model
             [DataMember]
             public string fiat_value;
 
+            /// <summary>
+            /// Block height
+            /// </summary>
             [DataMember]
             public long height;
 
@@ -102,12 +105,18 @@ namespace ElectrumJSONRPC.Response.Model
             [DataMember]
             public string label;
 
+            /// <summary>
+            /// list of ["address", amount]
+            /// </summary>
             [DataMember]
             public TransactionWalletHistoryResponseOutputsClass[] outputs;
 
             [DataMember]
             public long timestamp;
 
+            /// <summary>
+            /// Transaction ID
+            /// </summary>
             [DataMember]
             public string txid;
 
@@ -143,6 +152,9 @@ namespace ElectrumJSONRPC.Response.Model
 
             public class TransactionWalletHistoryResponseOutputsClass
             {
+                /// <summary>
+                /// Bitcoin address
+                /// </summary>
                 [DataMember]
                 public string address;
 

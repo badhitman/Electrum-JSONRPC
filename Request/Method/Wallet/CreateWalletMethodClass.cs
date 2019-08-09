@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using System;
 using System.Collections.Specialized;
 
@@ -10,7 +12,7 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
     /// Create a new wallet
     /// If you want to be prompted for an argument, type '?' or ':' (concealed)
     /// </summary>
-    class CreateWalletMethodClass : AbstractMethodClass
+    class CreateWalletMethodClass : AbstractMethodClass // commands.py signature create(self, passphrase=None, password=None, encrypt_file=True, segwit=False):
     {
         public override string method => "create";
         public string passphrase = null;
@@ -37,8 +39,8 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
             if (segwit != null)
                 options.Add("segwit", segwit.ToString());
 
-            string data = Client.Execute(method, options);
-            throw new NotImplementedException();
+            string jsonrpc_raw_data = Client.Execute(method, options);
+            throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }
 }

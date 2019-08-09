@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using ElectrumJSONRPC.Response.Model;
 using System.Collections.Specialized;
 
@@ -23,9 +25,9 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
 
         public override object execute(NameValueCollection options)
         {
-            string data = Client.Execute(method, options);
+            string jsonrpc_raw_data = Client.Execute(method, options);
             SimpleStringResponseClass result = new SimpleStringResponseClass();
-            return result.ReadObject(data);
+            return result.ReadObject(jsonrpc_raw_data);
         }
     }
 }

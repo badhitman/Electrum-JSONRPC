@@ -32,13 +32,5 @@ namespace ElectrumJSONRPC.Request
             var array = (from key in Request_params.AllKeys from value in Request_params.GetValues(key) select string.Format("\"{0}\":\"{1}\"", key, value)).ToArray();
             return "{" + string.Join(",", array) + "}";
         }
-        /*
-        {"id":1,"method":"getaddressbalance","params":[]}
-        { "id": 0, "method":"some.stratum.method", "params": [] }
-        {"id":"curltext","method":"listaddresses","params":{"funded":true}}
-        {"id":"curltext","method":"addrequest","params":{"amount":"3.14","memo":"test"}}
-
-        {"id":1, "method":"getaddressbalance", "params":"{"address":"1Fhea1dCnqmHUAsSSWBFyFCDuq8ttvnVmz"}"}
-         */
     }
 }

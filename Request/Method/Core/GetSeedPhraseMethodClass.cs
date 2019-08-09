@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using System;
 using System.Collections.Specialized;
 
@@ -11,7 +13,7 @@ namespace ElectrumJSONRPC.Request.Method.Core
     /// ~ ~ ~
     /// Get seed phrase. Print the generation seed of your wallet
     /// </summary>
-    class GetSeedPhraseMethodClass : AbstractMethodClass
+    class GetSeedPhraseMethodClass : AbstractMethodClass // commands.py signature getseed(self, password=None):
     {
         public override string method => "getseed";
         public string password = null;
@@ -25,8 +27,8 @@ namespace ElectrumJSONRPC.Request.Method.Core
             if (!string.IsNullOrEmpty(password))
                 options.Add("password", password);
 
-            string data = Client.Execute(method, options);
-            throw new NotImplementedException();
+            string jsonrpc_raw_data = Client.Execute(method, options);
+            throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }
 }

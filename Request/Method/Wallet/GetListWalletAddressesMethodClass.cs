@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using ElectrumJSONRPC.Response.Model;
 using System.Collections.Specialized;
 
@@ -11,7 +13,7 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
     /// ~ ~ ~
     /// List wallet addresses. Returns the list of all addresses in your wallet. Use optional arguments to filter the results
     /// </summary>
-    class GetListWalletAddressesMethodClass : AbstractMethodClass
+    class GetListWalletAddressesMethodClass : AbstractMethodClass // commands.py signature listaddresses(self, receiving=False, change=False, labels=False, frozen=False, unused=False, funded=False, balance=False):
     {
         public override string method => "listaddresses";
 
@@ -20,7 +22,6 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
         public bool? frozen = null;
         public bool? unused = null;
         public bool? funded = null;
-
         public bool? balance = null;
         public bool? labels = null;
 
@@ -46,21 +47,18 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
             if (funded != null)
                 options.Add("funded", funded.ToString());
 
-
-
-
             if (labels != null)
                 options.Add("labels", labels.ToString());
 
             if (balance != null)
                 options.Add("balance", balance.ToString());
 
-            string data = Client.Execute(method, options);
+            string jsonrpc_raw_data = Client.Execute(method, options);
             
             if ((balance ==  null || balance == false) && (labels == null || labels == false))
-                return new SimpleStringArrayResponseClass().ReadObject(data);
+                return new SimpleStringArrayResponseClass().ReadObject(jsonrpc_raw_data);
             else
-                return new SimpleStringArrayArrayResponseClass().ReadObject(data);
+                return new SimpleStringArrayArrayResponseClass().ReadObject(jsonrpc_raw_data);
         }
     }
 }

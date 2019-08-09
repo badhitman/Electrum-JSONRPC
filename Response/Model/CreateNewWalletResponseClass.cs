@@ -14,6 +14,9 @@ namespace ElectrumJSONRPC.Response.Model
         [DataContract]
         public class ResultCreateNewWalletResponseClass
         {
+            /// <summary>
+            /// Seed phrase
+            /// </summary>
             [DataMember]
             public string seed { get; set; }
 

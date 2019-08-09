@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using System.Collections.Specialized;
 
 namespace ElectrumJSONRPC.Request.Method
@@ -20,9 +22,9 @@ namespace ElectrumJSONRPC.Request.Method
 
         public override object execute(NameValueCollection options)
         {
-            string data = Client.Execute(method, options);
+            string jsonrpc_raw_data = Client.Execute(method, options);
             Response.Model.SimpleStringResponseClass result = new Response.Model.SimpleStringResponseClass();
-            return result.ReadObject(data);
+            return result.ReadObject(jsonrpc_raw_data);
         }
     }
 }

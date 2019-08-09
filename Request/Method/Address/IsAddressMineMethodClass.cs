@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using ElectrumJSONRPC.Response.Model;
 using System.Collections.Specialized;
 
@@ -11,9 +13,12 @@ namespace ElectrumJSONRPC.Request.Method.Address
     /// ~ ~ ~
     /// Check if address is in wallet. Return true if and only address is in wallet
     /// </summary>
-    class IsAddressMineMethodClass : AbstractMethodClass
+    class IsAddressMineMethodClass : AbstractMethodClass // commands.py signature ismine(self, address):
     {
         public override string method => "ismine";
+        /// <summary>
+        /// Bitcoin address
+        /// </summary>
         public string address;
 
         public IsAddressMineMethodClass(Electrum_JSONRPC_Client client)
@@ -25,9 +30,9 @@ namespace ElectrumJSONRPC.Request.Method.Address
         public override object execute(NameValueCollection options)
         {
             options.Add("address", address);
-            string data = Client.Execute(method, options);
+            string jsonrpc_raw_data = Client.Execute(method, options);
             SimpleBoolResponseClass result = new SimpleBoolResponseClass();
-            return result.ReadObject(data);
+            return result.ReadObject(jsonrpc_raw_data);
         }
     }
 }

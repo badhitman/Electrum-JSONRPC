@@ -1,5 +1,6 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
 using ElectrumJSONRPC.Response.Model;
 using System.Collections.Specialized;
@@ -11,9 +12,12 @@ namespace ElectrumJSONRPC.Request.Method.Address
     /// ~ ~ ~
     /// Returns the UTXO list of any address. Note: This is a walletless server query, results are not checked by SPV.
     /// </summary>
-    class GetAddressUnspentMethodClass : AbstractMethodClass
+    class GetAddressUnspentMethodClass : AbstractMethodClass // commands.py signature getaddressunspent(self, address):
     {
         public override string method => "getaddressunspent";
+        /// <summary>
+        /// Bitcoin address
+        /// </summary>
         public string address;
 
         public GetAddressUnspentMethodClass(Electrum_JSONRPC_Client client)
@@ -25,9 +29,9 @@ namespace ElectrumJSONRPC.Request.Method.Address
         public override object execute(NameValueCollection options)
         {
             options.Add("address", address);
-            string data = Client.Execute(method, options);
+            string jsonrpc_raw_data = Client.Execute(method, options);
             AddressUnspentResponseClass result = new AddressUnspentResponseClass();
-            return result.ReadObject(data);
+            return result.ReadObject(jsonrpc_raw_data);
         }
     }
 }

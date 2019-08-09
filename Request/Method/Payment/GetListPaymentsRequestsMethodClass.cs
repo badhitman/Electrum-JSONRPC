@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using System;
 using System.Collections.Specialized;
 
@@ -9,7 +11,7 @@ namespace ElectrumJSONRPC.Request.Method.Payment
     /// <summary>
     /// List the payment requests you made.
     /// </summary>
-    class GetListPaymentsRequestsMethodClass : AbstractMethodClass
+    class GetListPaymentsRequestsMethodClass : AbstractMethodClass // commands.py signature listrequests(self, pending=False, expired=False, paid=False):
     {
         public override string method => "listrequests";
         public bool? pending = null;
@@ -33,8 +35,8 @@ namespace ElectrumJSONRPC.Request.Method.Payment
             if (paid != null)
                 options.Add("paid", paid.ToString());
 
-            string data = Client.Execute(method, options);
-            throw new NotImplementedException();
+            string jsonrpc_raw_data = Client.Execute(method, options);
+            throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }
 }

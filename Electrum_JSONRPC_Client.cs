@@ -1,5 +1,6 @@
 ﻿////////////////////////////////////////////////
-// © https://github.com/badhitman - @fakegov 
+// © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
 using ElectrumJSONRPC.Request;
 using ElectrumJSONRPC.Request.Method;
@@ -20,7 +21,7 @@ namespace ElectrumJSONRPC
     {
         public static LogClass Log = new LogClass();
         private String encoded_authorization;
-        private string _method_;        
+        private string _method_;
 
         /// <summary>
         /// JSONRPC Host
@@ -134,7 +135,7 @@ namespace ElectrumJSONRPC
         /// <summary>
         /// Получить историю биткоин адреса
         /// </summary>
-        /// <param name="address"></param>
+        /// <param name="address">Bitcoin address</param>
         /// <returns></returns>
         public AddressHistoryResponseClass GetAddressHistory(string address)
         {
@@ -220,7 +221,7 @@ namespace ElectrumJSONRPC
             else
                 Log.Write("Результат запроса нового BTC адреса = NULL", LogStatusEnum.Alarm);
 
-            
+
             return simpleStringResponseClass;
         }
 
@@ -242,7 +243,7 @@ namespace ElectrumJSONRPC
             else
                 Log.Write("Результат запроса баланса кошелька = NULL", LogStatusEnum.Alarm);
 
-            
+
             return balanceResponseClass;
         }
 
@@ -263,7 +264,7 @@ namespace ElectrumJSONRPC
             else
                 Log.Write("Результат запроса версии сервера = NULL", LogStatusEnum.Alarm);
 
-           
+
             return simpleStringResponseClass;
         }
 
@@ -283,7 +284,7 @@ namespace ElectrumJSONRPC
             if (simpleBoolResponseClass == null || !simpleBoolResponseClass.result)
             {
                 Log.Write("Адрес не корректный!", LogStatusEnum.Alarm);
-                
+
                 return simpleBoolResponseClass;
             }
 
@@ -306,14 +307,17 @@ namespace ElectrumJSONRPC
         /// <param name="year">Год отчёта</param>
         /// <param name="show_addresses">Отобразить в результате запроса адреса IN & OUT</param>
         /// <param name="show_fiat">Отобразить суммы</param>
-        public WalletTransactionsHistoryResponseClass GetTransactionsHistoryWallet(bool? show_addresses = null, bool? show_fiat = null, string year = null)
+        public WalletTransactionsHistoryResponseClass GetTransactionsHistoryWallet(bool? show_addresses = null, bool? show_fiat = null, bool show_fees = false, int? year = null, long? from_height = null, long? to_height = null)
         {
             Log.Write("Получаем историю транзакций кошелька ...", LogStatusEnum.Norma);
             GetTransactionsHistoryWalletMethodClass electrum_history_transaction_method = new GetTransactionsHistoryWalletMethodClass(this)
             {
                 year = year,
                 show_addresses = show_addresses,
-                show_fiat = show_fiat
+                show_fiat = show_fiat,
+                show_fees = show_fees,
+                from_height = from_height,
+                to_height = to_height
             };
             WalletTransactionsHistoryResponseClass walletHistory = (WalletTransactionsHistoryResponseClass)electrum_history_transaction_method.execute(new NameValueCollection());
 
@@ -321,7 +325,7 @@ namespace ElectrumJSONRPC
             {
                 Log.Write("Отчёт по транзакциям [" + walletHistory.result.summary.InfoString + "]: ", LogStatusEnum.Norma);
                 //
-                
+
 
                 for (int i = 0; i < walletHistory.result.transactions.Length; i++)
                     Log.Write("      " + i.ToString() + "] " + walletHistory.result.transactions[i].InfoString, LogStatusEnum.Norma);
@@ -335,7 +339,7 @@ namespace ElectrumJSONRPC
         /// <summary>
         /// Получить транзакцию
         /// </summary>
-        /// <param name="txid">txid</param>
+        /// <param name="txid">Transaction ID</param>
         public GetTransactionResponseClass GetTransaction(string txid)
         {
             Log.Write("Получаем транзакцию [" + txid + "] ...", LogStatusEnum.Norma);
@@ -355,7 +359,7 @@ namespace ElectrumJSONRPC
         /// <summary>
         /// Получить баланс адреса
         /// </summary>
-        /// <param name="address"></param>
+        /// <param name="address">Bitcoin address</param>
         public BalanceResponseClass GetAddressBalance(string address)
         {
 
@@ -378,7 +382,7 @@ namespace ElectrumJSONRPC
         /// <summary>
         /// Проверка правильности адреса
         /// </summary>
-        /// <param name="address">Адресс для проверки</param>
+        /// <param name="address">Bitcoin address</param>
         public SimpleBoolResponseClass ValidateAddress(string address)
         {
             if (address == null)

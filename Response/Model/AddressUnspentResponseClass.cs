@@ -20,6 +20,9 @@ namespace ElectrumJSONRPC.Response.Model
             [DataMember]
             public string tx_hash { get; set; }
 
+            /// <summary>
+            /// Block height
+            /// </summary>
             [DataMember]
             public int height { get; set; }
 

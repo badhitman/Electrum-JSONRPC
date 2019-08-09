@@ -9,16 +9,17 @@ using System.Collections.Specialized;
 namespace ElectrumJSONRPC.Request.Method.Wallet
 {
     /// <summary>
-    /// Change wallet password
+    /// Remove a 'local' transaction from the wallet, and its dependent transactions.
     /// </summary>
-    class ChangeWalletPasswordMethodClass : AbstractMethodClass // commands.py signature password(self, password=None, new_password=None):
+    class RemoveLocalTransactionFromWalletAndDependent : AbstractMethodClass // commands.py signature removelocaltx(self, txid):
     {
-        public override string method => "password";
+        public override string method => "removelocaltx";
+        /// <summary>
+        /// Transaction ID
+        /// </summary>
+        public string txid;
 
-        public string password = null;
-        public string new_password = null;
-
-        public ChangeWalletPasswordMethodClass(Electrum_JSONRPC_Client client)
+        public RemoveLocalTransactionFromWalletAndDependent(Electrum_JSONRPC_Client client)
             : base(client)
         {
 
@@ -26,13 +27,10 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
 
         public override object execute(NameValueCollection options)
         {
-            if (!string.IsNullOrEmpty(password))
-                options.Add("password", password);
-
-            if (!string.IsNullOrEmpty(new_password))
-                options.Add("new_password", new_password);
+            options.Add("txid", txid);
 
             string jsonrpc_raw_data = Client.Execute(method, options);
+
             throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }

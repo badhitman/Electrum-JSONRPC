@@ -1,6 +1,8 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using System;
 using System.Collections.Specialized;
 
@@ -11,14 +13,12 @@ namespace ElectrumJSONRPC.Request.Method.Payment
     /// ~ ~ ~
     /// Create a payment request, using the first unused address of the wallet. The address will be considered as used after this operation. If no payment is received, the address will be considered as unused if the payment request is deleted from the wallet
     /// </summary>
-    class CreatePaymentRequestMethodClass : AbstractMethodClass
+    class CreatePaymentRequestMethodClass : AbstractMethodClass // commands.py signature addrequest(self, amount, memo='', expiration=None, force=False):
     {
         public override string method => "addrequest";
 
-        // amount, memo='', expiration=None, force=False
-
         /// <summary>
-        /// Bitcoin amount to request
+        /// Amount to be sent (in BTC). Type '!' to send the maximum available.
         /// </summary>
         public int amount;
 
@@ -30,12 +30,12 @@ namespace ElectrumJSONRPC.Request.Method.Payment
         /// <summary>
         /// Time in seconds
         /// </summary>
-        public long expiration = 0;
+        public long? expiration = null;
 
         /// <summary>
         /// Force wallet creation, even if limit is exceeded
         /// </summary>
-        public bool force = false;
+        public bool? force = null;
 
         public CreatePaymentRequestMethodClass(Electrum_JSONRPC_Client client)
             : base(client)
@@ -43,20 +43,21 @@ namespace ElectrumJSONRPC.Request.Method.Payment
 
         }
 
-
         public override object execute(NameValueCollection options)
         {
             options.Add("amount", amount.ToString());
-            options.Add("force", force.ToString());
 
             if (!string.IsNullOrEmpty(memo))
                 options.Add("memo", memo);
 
-            if (expiration > 0)
+            if (expiration != null && expiration > 0)
                 options.Add("expiration", expiration.ToString());
 
-            string data = Client.Execute(method, options);
-            throw new NotImplementedException();
+            if (force != null)
+                options.Add("force", force.ToString());
+
+            string jsonrpc_raw_data = Client.Execute(method, options);
+            throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }
 }
