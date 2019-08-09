@@ -29,7 +29,7 @@ namespace ElectrumJSONRPC.Request.Method.Address
         {
             options.Add("address", address);
             string jsonrpc_raw_data = Client.Execute(method, options);
-            return new Response.Model.SimpleBoolResponseClass().ReadObject(data);
+            return new Response.Model.SimpleBoolResponseClass().ReadObject(jsonrpc_raw_data);
         }
     }
 }
