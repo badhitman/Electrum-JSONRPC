@@ -20,7 +20,7 @@ namespace ElectrumJSONRPC.Request.Method.Payment
         public override string method => "getfeerate";
         public fee_methods? fee_method = null;
         public double? fee_level = null;
-        //fee_method=None, fee_level=None
+
         public GetFeeRateMethodClass(Electrum_JSONRPC_Client client)
             : base(client)
         {

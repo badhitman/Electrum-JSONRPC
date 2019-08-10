@@ -19,6 +19,7 @@ namespace ElectrumJSONRPC.Request.Method.Core
         {
 
         }
+
         public override object execute(NameValueCollection options)
         {
             string jsonrpc_raw_data = Client.Execute(method, options);

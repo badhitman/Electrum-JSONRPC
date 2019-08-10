@@ -2,7 +2,9 @@
 // © https://github.com/badhitman - @fakegov
 // Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using ElectrumJSONRPC.Response.Model;
+using System;
 using System.Collections.Specialized;
 
 namespace ElectrumJSONRPC.Request.Method.Address
@@ -15,6 +17,7 @@ namespace ElectrumJSONRPC.Request.Method.Address
     class GetAddressUnspentMethodClass : AbstractMethodClass // commands.py signature getaddressunspent(self, address):
     {
         public override string method => "getaddressunspent";
+        
         /// <summary>
         /// Bitcoin address
         /// </summary>
@@ -28,6 +31,9 @@ namespace ElectrumJSONRPC.Request.Method.Address
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(address))
+                throw new ArgumentNullException("address");
+
             options.Add("address", address);
             string jsonrpc_raw_data = Client.Execute(method, options);
             AddressUnspentResponseClass result = new AddressUnspentResponseClass();

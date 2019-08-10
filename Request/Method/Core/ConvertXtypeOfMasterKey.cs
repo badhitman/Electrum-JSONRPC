@@ -25,6 +25,11 @@ namespace ElectrumJSONRPC.Request.Method.Core
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(xkey))
+                throw new ArgumentNullException("xkey");
+            if (string.IsNullOrWhiteSpace(xtype))
+                throw new ArgumentNullException("xtype");
+
             options.Add("xkey", xkey);
             options.Add("xtype", xtype);
 

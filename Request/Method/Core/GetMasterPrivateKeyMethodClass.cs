@@ -22,6 +22,7 @@ namespace ElectrumJSONRPC.Request.Method.Core
         {
 
         }
+
         public override object execute(NameValueCollection options)
         {
             if (!string.IsNullOrEmpty(password))

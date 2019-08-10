@@ -24,6 +24,7 @@ namespace ElectrumJSONRPC.Request.Method.Core
         {
 
         }
+
         public override object execute(NameValueCollection options)
         {
             if (nbits != null && nbits > 0)

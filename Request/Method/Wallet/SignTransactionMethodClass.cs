@@ -16,10 +16,12 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
     class SignTransactionMethodClass : AbstractMethodClass // commands.py signature signtransaction(self, tx, privkey=None, password=None):
     {
         public override string method => "signtransaction";
+        
         /// <summary>
         /// Serialized transaction (hexadecimal)
         /// </summary>
         public string tx;
+        
         /// <summary>
         /// Private key. Type '?' to get a prompt.
         /// </summary>
@@ -31,8 +33,12 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
         {
 
         }
+
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(tx))
+                throw new ArgumentNullException("tx");
+
             options.Add("tx", tx);
 
             if (!string.IsNullOrEmpty(privkey))

@@ -16,10 +16,12 @@ namespace ElectrumJSONRPC.Request.Method.Core
     public class EncryptMessageMethodClass : AbstractMethodClass // commands.py signature encrypt(self, pubkey, message) -> str:
     {
         public override string method => "encrypt";
+        
         /// <summary>
         /// Public key
         /// </summary>
         public string pubkey;
+        
         /// <summary>
         /// Clear text message. Use quotes if it contains spaces.
         /// </summary>
@@ -33,6 +35,11 @@ namespace ElectrumJSONRPC.Request.Method.Core
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(pubkey))
+                throw new ArgumentNullException("pubkey");
+            if (string.IsNullOrWhiteSpace(message))
+                throw new ArgumentNullException("message");
+
             options.Add("pubkey", pubkey);
             options.Add("message", message);
 

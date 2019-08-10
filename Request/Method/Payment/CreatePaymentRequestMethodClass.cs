@@ -45,6 +45,9 @@ namespace ElectrumJSONRPC.Request.Method.Payment
 
         public override object execute(NameValueCollection options)
         {
+            if (amount <= 0)
+                throw new ArgumentException("Сумма должна быть больше нуля", "amount");
+
             options.Add("amount", amount.ToString());
 
             if (!string.IsNullOrEmpty(memo))

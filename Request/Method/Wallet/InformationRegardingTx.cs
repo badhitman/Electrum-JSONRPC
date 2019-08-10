@@ -27,6 +27,9 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(txid))
+                throw new ArgumentNullException("txid");
+
             options.Add("txid", txid);
 
             string jsonrpc_raw_data = Client.Execute(method, options);

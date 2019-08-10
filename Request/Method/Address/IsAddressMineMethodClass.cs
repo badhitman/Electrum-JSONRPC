@@ -4,6 +4,7 @@
 ////////////////////////////////////////////////
 
 using ElectrumJSONRPC.Response.Model;
+using System;
 using System.Collections.Specialized;
 
 namespace ElectrumJSONRPC.Request.Method.Address
@@ -13,7 +14,7 @@ namespace ElectrumJSONRPC.Request.Method.Address
     /// ~ ~ ~
     /// Check if address is in wallet. Return true if and only address is in wallet
     /// </summary>
-    class IsAddressMineMethodClass : AbstractMethodClass // commands.py signature ismine(self, address):
+    public class IsAddressMineMethodClass : AbstractMethodClass // commands.py signature ismine(self, address):
     {
         public override string method => "ismine";
         /// <summary>
@@ -29,8 +30,11 @@ namespace ElectrumJSONRPC.Request.Method.Address
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(address))
+                throw new ArgumentNullException("address");
+
             options.Add("address", address);
-            string jsonrpc_raw_data = Client.Execute(method, options);
+            jsonrpc_raw_data = Client.Execute(method, options);
             SimpleBoolResponseClass result = new SimpleBoolResponseClass();
             return result.ReadObject(jsonrpc_raw_data);
         }

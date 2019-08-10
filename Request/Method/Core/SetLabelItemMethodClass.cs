@@ -3,6 +3,7 @@
 // Electrum-3.3.8
 ////////////////////////////////////////////////
 
+using System;
 using System.Collections.Specialized;
 
 namespace ElectrumJSONRPC.Request.Method.Core
@@ -27,12 +28,17 @@ namespace ElectrumJSONRPC.Request.Method.Core
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(key))
+                throw new ArgumentNullException("key");
+            if (string.IsNullOrWhiteSpace(label))
+                throw new ArgumentNullException("label");
+
             options.Add("key", key);
             options.Add("label", label);
 
             string jsonrpc_raw_data = Client.Execute(method, options);
 
-            return null;
+            throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }
 }

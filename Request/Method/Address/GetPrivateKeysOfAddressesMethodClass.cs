@@ -29,12 +29,15 @@ namespace ElectrumJSONRPC.Request.Method.Address
         }
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(address))
+                throw new ArgumentNullException("address");
+
             options.Add("address", address);
 
             if(!string.IsNullOrEmpty(password))
                 options.Add("password", password);
 
-            string jsonrpc_raw_data = Client.Execute(method, options);
+            jsonrpc_raw_data = Client.Execute(method, options);
             throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }

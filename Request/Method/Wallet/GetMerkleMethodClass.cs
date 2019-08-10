@@ -24,14 +24,21 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
         /// Block height
         /// </summary>
         public int height;
-        
+
         public GetMerkleMethodClass(Electrum_JSONRPC_Client client)
             : base(client)
         {
 
         }
+
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(txid))
+                throw new ArgumentNullException("txid");
+
+            if (height <= 0)
+                throw new ArgumentException("Высота блока должна быть больше нуля", "height");
+
             options.Add("txid", txid);
             options.Add("height", height.ToString());
             string jsonrpc_raw_data = Client.Execute(method, options);

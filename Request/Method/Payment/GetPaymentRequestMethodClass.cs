@@ -27,6 +27,9 @@ namespace ElectrumJSONRPC.Request.Method.Payment
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(key))
+                throw new ArgumentNullException("key");
+
             options.Add("key", key);
             string jsonrpc_raw_data = Client.Execute(method, options);
             throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");

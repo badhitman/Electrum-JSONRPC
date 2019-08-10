@@ -17,13 +17,18 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
     {
         public override string method => "serialize";
         public string jsontx;
+
         public SerializeJsonTransactionMethodClass(Electrum_JSONRPC_Client client)
             : base(client)
         {
 
         }
+
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(jsontx))
+                throw new ArgumentNullException("jsontx");
+
             options.Add("jsontx", jsontx);
             string jsonrpc_raw_data = Client.Execute(method, options);
             throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");

@@ -22,7 +22,7 @@ namespace ElectrumJSONRPC.Request.Method
 
         public override object execute(NameValueCollection options)
         {
-            string jsonrpc_raw_data = Client.Execute(method, options);
+            jsonrpc_raw_data = Client.Execute(method, options);
             Response.Model.SimpleStringResponseClass result = new Response.Model.SimpleStringResponseClass();
             return result.ReadObject(jsonrpc_raw_data);
         }

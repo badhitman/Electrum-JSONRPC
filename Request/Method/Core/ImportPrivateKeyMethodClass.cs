@@ -31,6 +31,9 @@ namespace ElectrumJSONRPC.Request.Method.Core
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(privkey))
+                throw new ArgumentNullException("privkey");
+
             options.Add("privkey", privkey);
 
             if (!string.IsNullOrEmpty(password))

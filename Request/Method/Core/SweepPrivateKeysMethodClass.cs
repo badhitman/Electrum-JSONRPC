@@ -16,6 +16,7 @@ namespace ElectrumJSONRPC.Request.Method.Core
     public class SweepPrivateKeysMethodClass : AbstractMethodClass // commands.py signature sweep(self, privkey, destination, fee=None, nocheck=False, imax=100):
     {
         public override string method => "sweep";
+        
         /// <summary>
         /// Private key. Type '?' to get a prompt.
         /// </summary>
@@ -38,6 +39,11 @@ namespace ElectrumJSONRPC.Request.Method.Core
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(privkey))
+                throw new ArgumentNullException("privkey");
+            if (string.IsNullOrWhiteSpace(destination))
+                throw new ArgumentNullException("destination");
+
             options.Add("privkey", privkey);
             options.Add("destination", destination);
 

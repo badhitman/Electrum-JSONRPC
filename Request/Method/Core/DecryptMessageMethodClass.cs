@@ -16,14 +16,17 @@ namespace ElectrumJSONRPC.Request.Method.Core
     public class DecryptMessageMethodClass : AbstractMethodClass // commands.py signature decrypt(self, pubkey, encrypted, password=None) -> str:
     {
         public override string method => "decrypt";
+        
         /// <summary>
         /// Public key
         /// </summary>
         public string pubkey;
+        
         /// <summary>
         /// Encrypted message
         /// </summary>
         public string encrypted;
+
         public string password = null;
 
         public DecryptMessageMethodClass(Electrum_JSONRPC_Client client)
@@ -34,6 +37,11 @@ namespace ElectrumJSONRPC.Request.Method.Core
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(pubkey))
+                throw new ArgumentNullException("pubkey");
+            if (string.IsNullOrWhiteSpace(encrypted))
+                throw new ArgumentNullException("encrypted");
+
             options.Add("pubkey", pubkey);
             options.Add("encrypted", encrypted);
 

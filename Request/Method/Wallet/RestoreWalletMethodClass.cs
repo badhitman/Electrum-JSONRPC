@@ -27,8 +27,12 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
         {
 
         }
+
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(text))
+                throw new ArgumentNullException("text");
+
             options.Add("text", text);
 
             if (!string.IsNullOrEmpty(passphrase))

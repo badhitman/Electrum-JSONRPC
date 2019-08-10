@@ -13,13 +13,15 @@ namespace ElectrumJSONRPC.Request.Method.Address
     /// ~ ~ ~
     /// Return the public keys for a wallet address
     /// </summary>
-    class GetPubKeysOfAddressMethodClass : AbstractMethodClass // commands.py signature getpubkeys(self, address):
+    public class GetPubKeysOfAddressMethodClass : AbstractMethodClass // commands.py signature getpubkeys(self, address):
     {
         public override string method => "getpubkeys";
+        
         /// <summary>
         /// Bitcoin address
         /// </summary>
         public string address;
+
         public GetPubKeysOfAddressMethodClass(Electrum_JSONRPC_Client client)
             : base(client)
         {
@@ -27,8 +29,11 @@ namespace ElectrumJSONRPC.Request.Method.Address
         }
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(address))
+                throw new ArgumentNullException("address");
+
             options.Add("address", address);
-            string jsonrpc_raw_data = Client.Execute(method, options);
+            jsonrpc_raw_data = Client.Execute(method, options);
             throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
         }
     }

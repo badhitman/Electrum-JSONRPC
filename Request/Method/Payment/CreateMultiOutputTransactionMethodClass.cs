@@ -36,6 +36,9 @@ namespace ElectrumJSONRPC.Request.Method.Payment
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(outputs))
+                throw new ArgumentNullException("outputs");
+
             options.Add("outputs", outputs);
 
             if (fee != null && fee > 0)

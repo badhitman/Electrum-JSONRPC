@@ -32,6 +32,13 @@ namespace ElectrumJSONRPC.Request.Method.Core
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(address))
+                throw new ArgumentNullException("address");
+            if (string.IsNullOrWhiteSpace(signature))
+                throw new ArgumentNullException("signature");
+            if (string.IsNullOrWhiteSpace(message))
+                throw new ArgumentNullException("message");
+
             options.Add("address", address);
             options.Add("signature", signature);
             options.Add("message", message);

@@ -16,6 +16,7 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
     class SignPaymentRequestMethodClass : AbstractMethodClass // commands.py signature signrequest(self, address, password=None):
     {
         public override string method => "signrequest";
+        
         /// <summary>
         /// Bitcoin address
         /// </summary>
@@ -29,6 +30,9 @@ namespace ElectrumJSONRPC.Request.Method.Wallet
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(address))
+                throw new ArgumentNullException("address");
+
             options.Add("address", address);
 
             if(!string.IsNullOrEmpty(password))

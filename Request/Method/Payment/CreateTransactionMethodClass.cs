@@ -14,14 +14,17 @@ namespace ElectrumJSONRPC.Request.Method.Payment
     class CreateTransactionMethodClass : AbstractMethodClass // commands.py signature payto(self, destination, amount, fee=None, from_addr=None, change_addr=None, nocheck=False, unsigned=False, rbf=None, password=None, locktime=None):
     {
         public override string method => "payto";
+        
         /// <summary>
         /// Bitcoin address, contact or alias
         /// </summary>
         public string destination;
+        
         /// <summary>
         /// Amount to be sent (in BTC). Type '!' to send the maximum available.
         /// </summary>
         public string amount;
+
         public double? fee = null;
         public string from_addr = null;
         public string change_addr = null;
@@ -39,6 +42,11 @@ namespace ElectrumJSONRPC.Request.Method.Payment
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(amount))
+                throw new ArgumentNullException("amount");
+            if (string.IsNullOrWhiteSpace(destination))
+                throw new ArgumentNullException("destination");
+
             options.Add("amount", amount);
             options.Add(destination, destination);
 

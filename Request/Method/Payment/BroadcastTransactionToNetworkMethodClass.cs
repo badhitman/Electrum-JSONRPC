@@ -28,6 +28,9 @@ namespace ElectrumJSONRPC.Request.Method.Payment
 
         public override object execute(NameValueCollection options)
         {
+            if (string.IsNullOrWhiteSpace(tx))
+                throw new ArgumentNullException("tx");
+
             options.Add("tx", tx);
 
             string jsonrpc_raw_data = Client.Execute(method, options);
