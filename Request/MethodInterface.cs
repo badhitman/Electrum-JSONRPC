@@ -7,6 +7,6 @@ namespace ElectrumJSONRPC.Request
 {
     public interface MethodInterface
     {
-        object execute(NameValueCollection options);
+        object execute();
     }
 }

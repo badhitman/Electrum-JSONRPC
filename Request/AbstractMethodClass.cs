@@ -7,10 +7,10 @@ namespace ElectrumJSONRPC.Request
 {
     abstract public class AbstractMethodClass : MethodInterface
     {
-        public abstract object execute(NameValueCollection options);
+        public abstract object execute();
 
         public abstract string method { get; }
-        protected NameValueCollection request_params = new NameValueCollection();
+        protected NameValueCollection options { get; set; } = new NameValueCollection();
         protected Electrum_JSONRPC_Client Client = null;
         public string jsonrpc_raw_data { get; protected set; }
 

@@ -1,6 +1,7 @@
 # Electrum JSONRPC Client .NET Core C#
 
-Работа не закончена
+Разработка неоконченная. Полноценную реализацию имеют только некоторые jsonrpc методы, которые описаны в Electrum_JSONRPC_Client.
+Впрочем сигнатуры запросов имеют законченый вид. Доделывания требуют только сигнатуры JSON-RPC ответов.
 
 ```C#
 Electrum_JSONRPC_Client client = new Electrum_JSONRPC_Client("user", "user", "http://127.0.0.1", 7777);
