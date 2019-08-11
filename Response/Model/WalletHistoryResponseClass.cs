@@ -82,7 +82,7 @@ namespace ElectrumJSONRPC.Response.Model
             public string capital_gain;
 
             [DataMember]
-            public long confirmations;
+            public long? confirmations;
 
             [DataMember]
             public string date;
@@ -97,7 +97,7 @@ namespace ElectrumJSONRPC.Response.Model
             /// Block height
             /// </summary>
             [DataMember]
-            public long height;
+            public long? height;
 
             [DataMember]
             public TransactionWalletHistoryResponseInputsClass[] inputs;
@@ -112,7 +112,7 @@ namespace ElectrumJSONRPC.Response.Model
             public TransactionWalletHistoryResponseOutputsClass[] outputs;
 
             [DataMember]
-            public long timestamp;
+            public long? timestamp;
 
             /// <summary>
             /// Transaction ID
@@ -123,14 +123,18 @@ namespace ElectrumJSONRPC.Response.Model
             [DataMember]
             public string value;
 
-            public double DoubleValue { get { return AbstractResponseClass.DoubleValue(value); } }
-
-            public string InfoString
+            public double DoubleValue
             {
                 get
                 {
-                    return
-                        "Tx: " + balance +
+                    return BtcStringDoubleValue(value);
+                }
+            }
+
+            public override string ToString()
+            {
+                return
+                        "Balance: " + balance +
                         "; Confirmations: " + confirmations +
                         "; Date: " + date +
                         "; Height: " + height +
@@ -138,7 +142,6 @@ namespace ElectrumJSONRPC.Response.Model
                         "; Timestamp: " + timestamp +
                         "; Txid: " + txid +
                         "; Value: " + value + " {double=" + DoubleValue + "}";
-                }
             }
 
             public class TransactionWalletHistoryResponseInputsClass
@@ -161,7 +164,7 @@ namespace ElectrumJSONRPC.Response.Model
                 [DataMember]
                 public string value;
 
-                public double DoubleValue { get { return AbstractResponseClass.DoubleValue(value); } }
+                public double DoubleValue { get { return AbstractResponseClass.BtcStringDoubleValue(value); } }
             }
         }
     }

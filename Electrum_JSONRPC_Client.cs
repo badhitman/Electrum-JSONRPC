@@ -47,6 +47,8 @@ namespace ElectrumJSONRPC
         /// </summary>
         protected int request_id = 0;
 
+        public string jsonrpc_response_raw;
+
         public Electrum_JSONRPC_Client(string in_rpcUsername = null, string in_rpcPassword = null, string in_host = "http://127.0.0.1", int in_port = 7777, int in_id = 0)
         {
             //Log.WriteLine("Инициализация клиента.", LogStatusEnum.Norma);
@@ -69,13 +71,14 @@ namespace ElectrumJSONRPC
 
             _method_ = method;
             // Retrieve electrum api response
-            string response = ExecuteRequest(request_json);
+            
+            ExecuteRequest(request_json);
 
-            return response;
+            return jsonrpc_response_raw;
         }
 
 
-        private string ExecuteRequest(string post_json_param_request)
+        private void ExecuteRequest(string post_json_param_request)
         {
             //Log.WriteLine("-> " + post_json_param_request, LogStatusEnum.Trace);
             //
@@ -98,7 +101,7 @@ namespace ElectrumJSONRPC
             newStream.Write(bytes, 0, bytes.Length);
             newStream.Close();
 
-            string content = null;
+            jsonrpc_response_raw = null;
             try
             {
                 HttpWebResponse response = (HttpWebResponse)http.GetResponse();
@@ -111,7 +114,7 @@ namespace ElectrumJSONRPC
                     Stream stream = response.GetResponseStream();
                     StreamReader sr = new StreamReader(stream);
 
-                    content = sr.ReadToEnd().Replace(@"\n", "\n").Replace(@"\t", "\t").Replace(@"\r", "\r").Replace(@"\""", "\"").Replace(@"""{", "{").Replace(@"}""", "}"); //  //.Replace("\\\t", "\t").Replace("\\\n", "\n").Replace("\\\r", "\r");
+                    jsonrpc_response_raw = sr.ReadToEnd().Replace(@"\n", "\n").Replace(@"\t", "\t").Replace(@"\r", "\r").Replace(@"\""", "\"").Replace(@"""{", "{").Replace(@"}""", "}"); //  //.Replace("\\\t", "\t").Replace("\\\n", "\n").Replace("\\\r", "\r");
                     //Log.WriteLine("<-" + content, LogStatusEnum.Trace);
                 }
             }
@@ -119,7 +122,6 @@ namespace ElectrumJSONRPC
             {
                 //Log.WriteLine("Ошибка HTTP запроса: " + e.Message, LogStatusEnum.Alarm);
             }
-            return content;
         }
 
         /// <summary>
@@ -164,7 +166,7 @@ namespace ElectrumJSONRPC
 
             object list_addresses = electrum_list_addresses_method.execute();
 
-            if (list_addresses != null)
+            /*if (list_addresses != null)
             {
                 //Log.WriteLine("Список адресов кошелька: ", LogStatusEnum.Norma);
                 if (list_addresses is SimpleStringArrayArrayResponseClass)
@@ -192,7 +194,7 @@ namespace ElectrumJSONRPC
             else
             {
                 //Log.WriteLine("Результат запроса списка адресов кошелька = NULL", LogStatusEnum.Alarm);
-            }
+            }*/
             //LogSeparate();
             return list_addresses;
         }

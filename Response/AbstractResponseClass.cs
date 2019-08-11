@@ -1,6 +1,7 @@
 ﻿////////////////////////////////////////////////
 // © https://github.com/badhitman - @fakegov 
 ////////////////////////////////////////////////
+using MultiTool;
 using System.Runtime.Serialization;
 
 namespace ElectrumJSONRPC.Response
@@ -14,13 +15,12 @@ namespace ElectrumJSONRPC.Response
         [DataMember]
         public ErrorResponseClass error { get; set; }
 
-        public static double DoubleValue(string str_value)
+        public static double BtcStringDoubleValue(string str_value)
         {
-            if (str_value.Length < 5 || str_value.Substring(str_value.Length - 3).ToUpper() != "BTC")
-                return 0;
+            if (str_value.Length > 5 && str_value.Substring(str_value.Length - 3).ToUpper() == "BTC")
+                str_value = str_value.Substring(0, str_value.Length-3).Trim();
 
-            System.Globalization.NumberFormatInfo nfi = System.Globalization.NumberFormatInfo.CurrentInfo;
-            return System.Convert.ToDouble(str_value.Replace(".", nfi.CurrencyDecimalSeparator).Replace(",", nfi.CurrencyDecimalSeparator).Substring(0, str_value.Length - 4));
+            return glob_tools.GetDoubleFromString(str_value);
         }
     }
 
