@@ -2,6 +2,7 @@
 // © https://github.com/badhitman - @fakegov
 // Electrum-3.3.8
 ////////////////////////////////////////////////
+
 using ElectrumJSONRPC.Request;
 using ElectrumJSONRPC.Request.Methods;
 using ElectrumJSONRPC.Request.Methods.Address;
@@ -51,7 +52,6 @@ namespace ElectrumJSONRPC
 
         public Electrum_JSONRPC_Client(string in_rpcUsername = null, string in_rpcPassword = null, string in_host = "http://127.0.0.1", int in_port = 7777, int in_id = 0)
         {
-            //Log.WriteLine("Инициализация клиента.", LogStatusEnum.Norma);
             host = in_host;
             port = in_port;
             rpcUsername = in_rpcUsername;
@@ -71,7 +71,7 @@ namespace ElectrumJSONRPC
 
             _method_ = method;
             // Retrieve electrum api response
-            
+
             ExecuteRequest(request_json);
 
             return jsonrpc_response_raw;
@@ -80,10 +80,8 @@ namespace ElectrumJSONRPC
 
         private void ExecuteRequest(string post_json_param_request)
         {
-            //Log.WriteLine("-> " + post_json_param_request, LogStatusEnum.Trace);
-            //
             HttpWebRequest http = (HttpWebRequest)WebRequest.Create(new Uri(host + ":" + port.ToString()));
-            //http.Credentials = GetCredential();
+
             if (string.IsNullOrEmpty(encoded_authorization))
                 encoded_authorization = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(rpcUsername + ":" + rpcPassword));
 
@@ -115,7 +113,6 @@ namespace ElectrumJSONRPC
                     StreamReader sr = new StreamReader(stream);
 
                     jsonrpc_response_raw = sr.ReadToEnd().Replace(@"\n", "\n").Replace(@"\t", "\t").Replace(@"\r", "\r").Replace(@"\""", "\"").Replace(@"""{", "{").Replace(@"}""", "}"); //  //.Replace("\\\t", "\t").Replace("\\\n", "\n").Replace("\\\r", "\r");
-                    //Log.WriteLine("<-" + content, LogStatusEnum.Trace);
                 }
             }
             catch (Exception e)
@@ -131,17 +128,12 @@ namespace ElectrumJSONRPC
         /// <returns></returns>
         public AddressHistoryResponseClass GetAddressHistory(string address)
         {
-            //Log.WriteLine("Запрос истории адреса биткоин ...", LogStatusEnum.Norma);
             GetAddressHistoryMethodClass getAddressHistoryMethodClass = new GetAddressHistoryMethodClass(this)
             {
                 address = address
             };
 
             AddressHistoryResponseClass addressHistoryResponseClass = (AddressHistoryResponseClass)getAddressHistoryMethodClass.execute();
-            if (addressHistoryResponseClass == null)
-            {
-                // Log.WriteLine("Результат запроса истории адреса биткоин NULL", LogStatusEnum.Alarm);
-            }
 
             return addressHistoryResponseClass;
         }
@@ -151,7 +143,6 @@ namespace ElectrumJSONRPC
         /// </summary>
         public object GetListWalletAddresses(bool? show_balance = null, bool? show_labels = null, bool? filter_receiving = null, bool? filter_change = null, bool? filter_frozen = null, bool? filter_unused = null, bool? filter_funded = null)
         {
-            //Log.WriteLine("Получаем список адресов кошелька ...", LogStatusEnum.Norma);
             GetListWalletAddressesMethodClass electrum_list_addresses_method = new GetListWalletAddressesMethodClass(this)
             {
                 receiving = filter_receiving,
@@ -168,34 +159,13 @@ namespace ElectrumJSONRPC
 
             /*if (list_addresses != null)
             {
-                //Log.WriteLine("Список адресов кошелька: ", LogStatusEnum.Norma);
                 if (list_addresses is SimpleStringArrayArrayResponseClass)
                 {
-                    //Log.WriteLine("Формат string[][]", LogStatusEnum.Norma);
-                    int i = 0;
-                    foreach (string[] s_arr in ((SimpleStringArrayArrayResponseClass)list_addresses).result)
-                    {
-                        i++;
-                        //Log.WriteLine("     " + i.ToString() + "] " + s_arr.ToString(), LogStatusEnum.Norma);
-                    }
-                }
-                else
-                {
-                    //Log.WriteLine("Формат string[]", LogStatusEnum.Norma);
-                    int i = 0;
-                    foreach (string s in ((SimpleStringArrayResponseClass)list_addresses).result)
-                    {
-                        i++;
-                        //Log.WriteLine("     " + i.ToString() + "] " + s.ToString(), LogStatusEnum.Norma);
-                    }
+                   
                 }
 
-            }
-            else
-            {
-                //Log.WriteLine("Результат запроса списка адресов кошелька = NULL", LogStatusEnum.Alarm);
             }*/
-            //LogSeparate();
+
             return list_addresses;
         }
 
@@ -204,17 +174,8 @@ namespace ElectrumJSONRPC
         /// </summary>
         public SimpleStringResponseClass CreateNewAddress()
         {
-            //Log.Write("Создаётся новый BTC адрес ...", LogStatusEnum.Norma);
             CreateNewAddressMethodClass createNewAddressMethodClass = new CreateNewAddressMethodClass(this);
             SimpleStringResponseClass simpleStringResponseClass = (SimpleStringResponseClass)createNewAddressMethodClass.execute();
-            if (simpleStringResponseClass != null)
-            {
-                //Log.Write("Новый BTC адрес: " + simpleStringResponseClass.result, LogStatusEnum.Norma);
-            }
-            else
-            {
-                //Log.Write("Результат запроса нового BTC адреса = NULL", LogStatusEnum.Alarm);
-            }
 
             return simpleStringResponseClass;
         }
@@ -224,20 +185,11 @@ namespace ElectrumJSONRPC
         /// </summary>
         public BalanceResponseClass GetBalanceWallet()
         {
-            //Log.Write("Запрашиваем баланс кошелька ...", LogStatusEnum.Norma);
             GetBalanceWalletMethodClass getBalanceWalletMethodClass = new GetBalanceWalletMethodClass(this);
             BalanceResponseClass balanceResponseClass = (BalanceResponseClass)getBalanceWalletMethodClass.execute();
             if (balanceResponseClass != null)
-            {
                 if (balanceResponseClass.result.unconfirmed == null)
                     balanceResponseClass.result.unconfirmed = "0";
-
-                //Log.Write("Баланс кошелька: confirmed: " + balanceResponseClass.result.confirmed + "; unconfirmed: " + balanceResponseClass.result.unconfirmed + ";", LogStatusEnum.Norma);
-            }
-            else
-            {
-                //Log.Write("Результат запроса баланса кошелька = NULL", LogStatusEnum.Alarm);
-            }
 
             return balanceResponseClass;
         }
@@ -247,21 +199,8 @@ namespace ElectrumJSONRPC
         /// </summary>
         public SimpleStringResponseClass GetElectrumVersion()
         {
-            //Log.Write("Запрашиваем версию Electrum ...", LogStatusEnum.Norma);
             VersionMethodClass versionMethodClass = new VersionMethodClass(this);
             SimpleStringResponseClass simpleStringResponseClass = (SimpleStringResponseClass)versionMethodClass.execute();
-            if (simpleStringResponseClass != null)
-            {
-                //Log.Write("Electrum version: " + simpleStringResponseClass.result, LogStatusEnum.Norma);
-                if (simpleStringResponseClass.result != "3.1.3")
-                {
-                    // Log.Write("Версия отличается от той для которой писалась программа (3.1.3)!", LogStatusEnum.Alarm);
-                }
-            }
-            else
-            {
-                //Log.Write("Результат запроса версии сервера = NULL", LogStatusEnum.Alarm);
-            }
 
             return simpleStringResponseClass;
         }
@@ -275,34 +214,19 @@ namespace ElectrumJSONRPC
             if (check_address == null)
                 check_address = "";
 
-
-            //Log.Write("Проверяем принадлежность адреса кошельку [" + check_address + "] ...", LogStatusEnum.Norma);
-
             SimpleBoolResponseClass simpleBoolResponseClass = ValidateAddress(check_address);
             if (simpleBoolResponseClass == null || !simpleBoolResponseClass.result)
-            {
-                //Log.Write("Адрес не корректный!", LogStatusEnum.Alarm);
-
                 return simpleBoolResponseClass;
-            }
 
             IsAddressMineMethodClass isAddressMineMethodClass = new IsAddressMineMethodClass(this) { address = check_address };
             simpleBoolResponseClass = (SimpleBoolResponseClass)isAddressMineMethodClass.execute();
-            if (simpleBoolResponseClass != null)
-            {
-                //Log.Write("BTC адрес [" + check_address + "] " + (simpleBoolResponseClass.result ? "принадлежит кошельку" : "НЕ принадлежит кошельку"), LogStatusEnum.Norma);
 
-            }
-            else
-            {
-                //Log.Write("Результат проверки принадлежности адреса [" + check_address + "] = NULL", LogStatusEnum.Alarm);
-            }
             return simpleBoolResponseClass;
         }
 
         public void CreatePaymentRequest()
         {
-            CreatePaymentRequestMethodClass create_payment_request_method_class = new CreatePaymentRequestMethodClass(this) { amount = 5, expiration = 60*60, force = true, memo = "test" };
+            CreatePaymentRequestMethodClass create_payment_request_method_class = new CreatePaymentRequestMethodClass(this) { amount = 5, expiration = 60 * 60, force = true, memo = "test" };
             create_payment_request_method_class.execute();
         }
 
@@ -314,7 +238,6 @@ namespace ElectrumJSONRPC
         /// <param name="show_fiat">Отобразить суммы</param>
         public WalletTransactionsHistoryResponseClass GetTransactionsHistoryWallet(bool? show_addresses = null, bool? show_fiat = null, bool show_fees = false, int? year = null, long? from_height = null, long? to_height = null)
         {
-            //Log.Write("Получаем историю транзакций кошелька ...", LogStatusEnum.Norma);
             GetTransactionsHistoryWalletMethodClass electrum_history_transaction_method = new GetTransactionsHistoryWalletMethodClass(this)
             {
                 year = year,
@@ -326,21 +249,6 @@ namespace ElectrumJSONRPC
             };
             WalletTransactionsHistoryResponseClass walletHistory = (WalletTransactionsHistoryResponseClass)electrum_history_transaction_method.execute();
 
-            if (walletHistory != null)
-            {
-                //Log.Write("Отчёт по транзакциям [" + walletHistory.result.summary.InfoString + "]: ", LogStatusEnum.Norma);
-                //
-
-
-                for (int i = 0; i < walletHistory.result.transactions.Length; i++)
-                {
-                    //Log.Write("      " + i.ToString() + "] " + walletHistory.result.transactions[i].InfoString, LogStatusEnum.Norma);
-                }
-            }
-            else
-            {
-                //Log.Write("Результат запроса истории транзакций кошелька = NULL", LogStatusEnum.Alarm);
-            }
             return walletHistory;
         }
 
@@ -350,20 +258,13 @@ namespace ElectrumJSONRPC
         /// <param name="txid">Transaction ID</param>
         public GetTransactionResponseClass GetTransaction(string txid)
         {
-            //Log.Write("Получаем транзакцию [" + txid + "] ...", LogStatusEnum.Norma);
             GetTransactionMethodClass getTransactionMethodClass = new GetTransactionMethodClass(this)
             {
                 txid = txid
             };
+
             GetTransactionResponseClass getTransactionResponseClass = (GetTransactionResponseClass)getTransactionMethodClass.execute();
-            if (getTransactionResponseClass != null)
-            {
-                //Log.Write("final:" + getTransactionResponseClass.result.final.ToString() + "; hex:" + getTransactionResponseClass.result.hex + "; complete:" + getTransactionResponseClass.result.complete, LogStatusEnum.Norma);
-            }
-            else
-            {
-                //Log.Write("Результат запроса транзакции = NULL", LogStatusEnum.Alarm);
-            }
+
             return getTransactionResponseClass;
         }
 
@@ -373,21 +274,12 @@ namespace ElectrumJSONRPC
         /// <param name="address">Bitcoin address</param>
         public BalanceResponseClass GetAddressBalance(string address)
         {
-
-            //Log.Write("Запрос баланса адреса биткоин ...", LogStatusEnum.Norma);
             GetAddressBalanceMethodClass getAddressBalanceMethodClass = new GetAddressBalanceMethodClass(this)
             {
                 address = address
             };
             BalanceResponseClass balanceResponseClass = (BalanceResponseClass)getAddressBalanceMethodClass.execute();
-            if (balanceResponseClass != null)
-            {
 
-            }
-            else
-            {
-                //Log.Write("Результат запроса баланса адреса биткоин = NULL", LogStatusEnum.Alarm);
-            }
             return balanceResponseClass;
         }
 
@@ -400,17 +292,9 @@ namespace ElectrumJSONRPC
             if (address == null)
                 address = "";
 
-            //Log.Write("Проверяем корректность адреса биткоин [" + address + "] ...", LogStatusEnum.Norma);
             ValidateAddressMethodClass validateAddressMethodClass = new ValidateAddressMethodClass(this) { address = address };
             SimpleBoolResponseClass simpleBoolResponseClass = (SimpleBoolResponseClass)validateAddressMethodClass.execute();
-            if (simpleBoolResponseClass != null)
-            {
-                //Log.Write("BTC адрес [" + address + "] кооректный", LogStatusEnum.Norma);
-            }
-            else
-            {
-                //Log.Write("Результат проверки корректности адреса биткоин = NULL", LogStatusEnum.Alarm);
-            }
+
             return simpleBoolResponseClass;
         }
     }

@@ -23,7 +23,80 @@ namespace ElectrumJSONRPC.Response.Model
             [DataMember]
             public SummaryWalletHistoryResponseClass summary;
         }
-        
+
+        [DataContract]
+        public class TransactionWalletHistoryResponseClass
+        {
+            [DataMember]
+            public string balance;
+
+            [DataMember]
+            public long? confirmations;
+
+            [DataMember]
+            public DateTime date;
+
+            [DataMember]
+            public string fee;
+
+            [DataMember]
+            public long timestamp;
+
+            [DataMember]
+            public string label;
+
+            [DataMember]
+            public bool? incoming;
+
+            [DataMember]
+            public string txid;
+
+            /// <summary>
+            /// Block height
+            /// </summary>
+            [DataMember]
+            public long? height;
+
+            [DataMember]
+            public string value;
+
+            /// <summary>
+            /// Transaction ID
+            /// </summary>
+            [DataMember]
+            public string txpos_in_block;
+
+            [DataMember]
+            public TransactionWalletHistoryResponseInputsClass[] inputs;
+
+            /// <summary>
+            /// list of ["address", amount]
+            /// </summary>
+            [DataMember]
+            public TransactionWalletHistoryResponseOutputsClass[] outputs;
+
+            public class TransactionWalletHistoryResponseInputsClass
+            {
+                [DataMember]
+                public string prevout_hash;
+
+                [DataMember]
+                public int prevout_n;
+            }
+
+            public class TransactionWalletHistoryResponseOutputsClass
+            {
+                /// <summary>
+                /// Bitcoin address
+                /// </summary>
+                [DataMember]
+                public string address;
+
+                [DataMember]
+                public string value;
+            }
+        }
+
         [DataContract]
         public class SummaryWalletHistoryResponseClass
         {
@@ -85,82 +158,6 @@ namespace ElectrumJSONRPC.Response.Model
             [DataMember]
             public string fiat_end_value;
             #endregion
-        }
-
-        [DataContract]
-        public class TransactionWalletHistoryResponseClass
-        {
-            [DataMember]
-            public string balance;
-
-            [DataMember]
-            public long? confirmations;
-
-            [DataMember]
-            public DateTime date;
-
-            [DataMember]
-            public string fee;
-
-            [DataMember]
-            public long timestamp;
-
-            [DataMember]
-            public string label;
-
-            [DataMember]
-            public bool? incoming;
-
-            [DataMember]
-            public string txid;
-
-            /// <summary>
-            /// Block height
-            /// </summary>
-            [DataMember]
-            public long? height;
-
-            [DataMember]
-            public string value;
-
-            [DataMember]
-            public int? ;
-
-            /// <summary>
-            /// Transaction ID
-            /// </summary>
-            [DataMember]
-            public string txpos_in_block;
-
-            [DataMember]
-            public TransactionWalletHistoryResponseInputsClass[] inputs;
-
-            /// <summary>
-            /// list of ["address", amount]
-            /// </summary>
-            [DataMember]
-            public TransactionWalletHistoryResponseOutputsClass[] outputs;
-
-            public class TransactionWalletHistoryResponseInputsClass
-            {
-                [DataMember]
-                public string prevout_hash;
-
-                [DataMember]
-                public int prevout_n;
-            }
-
-            public class TransactionWalletHistoryResponseOutputsClass
-            {
-                /// <summary>
-                /// Bitcoin address
-                /// </summary>
-                [DataMember]
-                public string address;
-
-                [DataMember]
-                public string value;
-            }
         }
     }
 }
