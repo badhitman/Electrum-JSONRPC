@@ -34,13 +34,13 @@ namespace ElectrumJSONRPC.Response.Model
             public long? confirmations;
 
             [DataMember]
-            public DateTime date;
+            public string date;
 
             [DataMember]
             public string fee;
 
             [DataMember]
-            public long timestamp;
+            public long? timestamp;
 
             [DataMember]
             public string label;
@@ -101,16 +101,16 @@ namespace ElectrumJSONRPC.Response.Model
         public class SummaryWalletHistoryResponseClass
         {
             [DataMember]
-            public DateTime start_date;
+            public string start_date;
 
             [DataMember]
-            public DateTime end_date;
+            public string end_date;
 
             [DataMember]
-            public long from_height;
+            public long? from_height;
 
             [DataMember]
-            public long to_height;
+            public long? to_height;
 
             [DataMember]
             public string start_balance;

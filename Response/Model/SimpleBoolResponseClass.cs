@@ -9,6 +9,6 @@ namespace ElectrumJSONRPC.Response.Model
     public class SimpleBoolResponseClass : AbstractResponseClass
     {
         [DataMember]
-        public bool result { get; set; }
+        public bool? result { get; set; }
     }
 }

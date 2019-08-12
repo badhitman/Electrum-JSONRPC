@@ -20,35 +20,43 @@ namespace ElectrumJSONRPC
 
     public class Electrum_JSONRPC_Client
     {
-        private String encoded_authorization;
-        private string _method_;
+        #region properties
 
         /// <summary>
         /// JSONRPC Host
         /// </summary>
-        protected string host = "";
+        public string host { get; protected set; } = "";
 
         /// <summary>
         /// JSONRPC Port
         /// </summary>
-        protected int port = 0;
+        public int port { get; protected set; } = 0;
+
+        public string _method_ { get; protected set; }
+
+        public string encoded_authorization { get; protected set; }
 
         /// <summary>
         /// JSONRPC User Name
         /// </summary>
-        protected string rpcUsername = null;
+        public string rpcUsername { get; protected set; } = null;
 
         /// <summary>
         /// JSONRPC Password
         /// </summary>
-        protected string rpcPassword = null;
+        public string rpcPassword { get; protected set; } = null;
 
         /// <summary>
         /// Last Message-ID
         /// </summary>
-        protected int request_id = 0;
+        public int request_id { get; protected set; } = 0;
 
-        public string jsonrpc_response_raw;
+        /// <summary>
+        /// raw ответ от jsonrpc
+        /// </summary>
+        public string jsonrpc_response_raw { get; protected set; }
+
+        #endregion
 
         public Electrum_JSONRPC_Client(string in_rpcUsername = null, string in_rpcPassword = null, string in_host = "http://127.0.0.1", int in_port = 7777, int in_id = 0)
         {
@@ -66,20 +74,14 @@ namespace ElectrumJSONRPC
             req.id = request_id++;
             req.method = method;
             req.Request_params = param_request;
-            // Create request payload
+
             string request_json = req.ToString();
 
             _method_ = method;
-            // Retrieve electrum api response
 
-            ExecuteRequest(request_json);
+            jsonrpc_response_raw = null;
 
-            return jsonrpc_response_raw;
-        }
-
-
-        private void ExecuteRequest(string post_json_param_request)
-        {
+            #region http web request
             HttpWebRequest http = (HttpWebRequest)WebRequest.Create(new Uri(host + ":" + port.ToString()));
 
             if (string.IsNullOrEmpty(encoded_authorization))
@@ -93,13 +95,12 @@ namespace ElectrumJSONRPC
             http.PreAuthenticate = true;
 
             ASCIIEncoding encoding = new ASCIIEncoding();
-            Byte[] bytes = encoding.GetBytes(post_json_param_request);
+            byte[] bytes = encoding.GetBytes(request_json);
 
             Stream newStream = http.GetRequestStream();
             newStream.Write(bytes, 0, bytes.Length);
             newStream.Close();
 
-            jsonrpc_response_raw = null;
             try
             {
                 HttpWebResponse response = (HttpWebResponse)http.GetResponse();
@@ -119,6 +120,9 @@ namespace ElectrumJSONRPC
             {
                 //Log.WriteLine("Ошибка HTTP запроса: " + e.Message, LogStatusEnum.Alarm);
             }
+            #endregion
+
+            return jsonrpc_response_raw;
         }
 
         /// <summary>
@@ -215,8 +219,8 @@ namespace ElectrumJSONRPC
                 check_address = "";
 
             SimpleBoolResponseClass simpleBoolResponseClass = ValidateAddress(check_address);
-            if (simpleBoolResponseClass == null || !simpleBoolResponseClass.result)
-                return simpleBoolResponseClass;
+            if (simpleBoolResponseClass == null)
+                return null;
 
             IsAddressMineMethodClass isAddressMineMethodClass = new IsAddressMineMethodClass(this) { address = check_address };
             simpleBoolResponseClass = (SimpleBoolResponseClass)isAddressMineMethodClass.execute();
@@ -224,6 +228,9 @@ namespace ElectrumJSONRPC
             return simpleBoolResponseClass;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void CreatePaymentRequest()
         {
             CreatePaymentRequestMethodClass create_payment_request_method_class = new CreatePaymentRequestMethodClass(this) { amount = 5, expiration = 60 * 60, force = true, memo = "test" };

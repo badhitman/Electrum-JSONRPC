@@ -21,7 +21,7 @@ namespace ElectrumJSONRPC.Response.Model
             /// Block height
             /// </summary>
             [DataMember]
-            public int height { get; set; }
+            public int? height { get; set; }
         }
     }
 }

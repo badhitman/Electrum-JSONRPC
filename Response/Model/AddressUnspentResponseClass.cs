@@ -15,7 +15,7 @@ namespace ElectrumJSONRPC.Response.Model
         public class ResultAddressUnspentClass
         {
             [DataMember]
-            public int tx_pos { get; set; }
+            public int? tx_pos { get; set; }
 
             [DataMember]
             public string tx_hash { get; set; }
@@ -24,10 +24,10 @@ namespace ElectrumJSONRPC.Response.Model
             /// Block height
             /// </summary>
             [DataMember]
-            public int height { get; set; }
+            public int? height { get; set; }
 
             [DataMember]
-            public int value { get; set; }
+            public int? value { get; set; }
         }
     }
 }

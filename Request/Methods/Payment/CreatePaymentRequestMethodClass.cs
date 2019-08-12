@@ -3,6 +3,7 @@
 // Electrum-3.3.8
 ////////////////////////////////////////////////
 
+using ElectrumJSONRPC.Response.Model;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -59,8 +60,9 @@ namespace ElectrumJSONRPC.Request.Methods.Payment
             if (force != null)
                 options.Add("force", force.ToString());
 
-            string jsonrpc_raw_data = Client.Execute(method, options);
-            throw new NotImplementedException("нужно вернуть десереализованный объект из [jsonrpc_raw_data]");
+            string jsonrpc_raw_data = Client.Execute(method, options).Replace("amount (BTC)", "amountBTC");
+            CreatePaymentResponseClass result = new CreatePaymentResponseClass();
+            return result.ReadObject(jsonrpc_raw_data);
         }
     }
 }

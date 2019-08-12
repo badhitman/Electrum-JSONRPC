@@ -10,7 +10,7 @@ namespace ElectrumJSONRPC.Response
     public abstract class AbstractResponseClass : exClasses.JsonSerClass
     {
         [DataMember]
-        public int id { get; set; }
+        public string id { get; set; }
 
         [DataMember]
         public ErrorResponseClass error { get; set; }

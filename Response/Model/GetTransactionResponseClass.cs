@@ -16,13 +16,13 @@ namespace ElectrumJSONRPC.Response.Model
         public class ResultGetTransactionResponseClass
         {
             [DataMember]
-            public bool final { get; set; }
+            public bool? final { get; set; }
 
             [DataMember]
             public string hex { get; set; }
 
             [DataMember]
-            public bool complete { get; set; }
+            public bool? complete { get; set; }
         }
     }
 }

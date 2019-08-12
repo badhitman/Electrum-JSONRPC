@@ -14,7 +14,7 @@ namespace ElectrumJSONRPC.Request.Methods.Address
     /// ~ ~ ~
     /// Return the balance of any address. Note: This is a walletless server query, results are not checked by SPV.
     /// </summary>
-    class GetAddressBalanceMethodClass : AbstractMethodClass // commands.py signature getaddressbalance(self, address):
+    public class GetAddressBalanceMethodClass : AbstractMethodClass // commands.py signature getaddressbalance(self, address):
     {
         public override string method => "getaddressbalance";
 
