@@ -1,6 +1,9 @@
 ﻿////////////////////////////////////////////////
-// © https://github.com/badhitman - @fakegov 
+// © https://github.com/badhitman - @fakegov
+// Electrum-3.3.8
 ////////////////////////////////////////////////
+
+using System;
 using System.Runtime.Serialization;
 
 namespace ElectrumJSONRPC.Response.Model
@@ -15,83 +18,101 @@ namespace ElectrumJSONRPC.Response.Model
         public class ResultWalletHistoryResponseClass
         {
             [DataMember]
-            public SummaryWalletHistoryResponseClass summary;
+            public TransactionWalletHistoryResponseClass[] transactions;
 
             [DataMember]
-            public TransactionWalletHistoryResponseClass[] transactions;
+            public SummaryWalletHistoryResponseClass summary;
         }
-
+        
         [DataContract]
         public class SummaryWalletHistoryResponseClass
         {
             [DataMember]
-            public string capital_gains;
+            public DateTime start_date;
 
             [DataMember]
-            public string end_balance;
+            public DateTime end_date;
 
             [DataMember]
-            public string end_date;
+            public long from_height;
 
             [DataMember]
-            public string expenditures;
-
-            [DataMember]
-            public string fiat_expenditures;
-
-            [DataMember]
-            public string fiat_income;
-
-            [DataMember]
-            public string income;
+            public long to_height;
 
             [DataMember]
             public string start_balance;
+            
+            [DataMember]
+            public string end_balance;
+
+            /// <summary>
+            /// Поступление
+            /// </summary>
+            [DataMember]
+            public string incoming;
+
+            /// <summary>
+            /// Расход
+            /// </summary>
+            [DataMember]
+            public string outgoing;
+            
+            #region fiat
+            [DataMember]
+            public string fiat_currency;
 
             [DataMember]
-            public string start_date;
+            public string fiat_capital_gains;
 
             [DataMember]
-            public string start_fiat_balance;
+            public string fiat_incoming;
 
             [DataMember]
-            public string start_fiat_value;
+            public string fiat_outgoing;
 
             [DataMember]
-            public string unrealized_gains;
+            public string fiat_unrealized_gains;
 
-            public string InfoString
-            {
-                get
-                {
-                    return "Start: " + start_date + " {= " + start_balance + "}; End: " + end_date + " {= " + end_balance + "}. Income: " + income + "; Expenditures: " + expenditures + "; Capital_gains: " + capital_gains + "; Unrealized_gains: " + unrealized_gains + ";";
-                }
-            }
+            [DataMember]
+            public string fiat_start_balance;
+
+            [DataMember]
+            public string fiat_end_balance;
+
+            [DataMember]
+            public string fiat_start_value;
+
+            [DataMember]
+            public string fiat_end_value;
+            #endregion
         }
 
         [DataContract]
         public class TransactionWalletHistoryResponseClass
         {
             [DataMember]
-            public string acquisition_price;
-
-            [DataMember]
             public string balance;
-
-            [DataMember]
-            public string capital_gain;
 
             [DataMember]
             public long? confirmations;
 
             [DataMember]
-            public string date;
+            public DateTime date;
 
             [DataMember]
-            public bool? fiat_default;
+            public string fee;
 
             [DataMember]
-            public string fiat_value;
+            public long timestamp;
+
+            [DataMember]
+            public string label;
+
+            [DataMember]
+            public bool? incoming;
+
+            [DataMember]
+            public string txid;
 
             /// <summary>
             /// Block height
@@ -100,49 +121,25 @@ namespace ElectrumJSONRPC.Response.Model
             public long? height;
 
             [DataMember]
-            public TransactionWalletHistoryResponseInputsClass[] inputs;
+            public string value;
 
             [DataMember]
-            public string label;
+            public int? ;
+
+            /// <summary>
+            /// Transaction ID
+            /// </summary>
+            [DataMember]
+            public string txpos_in_block;
+
+            [DataMember]
+            public TransactionWalletHistoryResponseInputsClass[] inputs;
 
             /// <summary>
             /// list of ["address", amount]
             /// </summary>
             [DataMember]
             public TransactionWalletHistoryResponseOutputsClass[] outputs;
-
-            [DataMember]
-            public long? timestamp;
-
-            /// <summary>
-            /// Transaction ID
-            /// </summary>
-            [DataMember]
-            public string txid;
-
-            [DataMember]
-            public string value;
-
-            public double DoubleValue
-            {
-                get
-                {
-                    return BtcStringDoubleValue(value);
-                }
-            }
-
-            public override string ToString()
-            {
-                return
-                        "Balance: " + balance +
-                        "; Confirmations: " + confirmations +
-                        "; Date: " + date +
-                        "; Height: " + height +
-                        "; Label: " + label +
-                        "; Timestamp: " + timestamp +
-                        "; Txid: " + txid +
-                        "; Value: " + value + " {double=" + DoubleValue + "}";
-            }
 
             public class TransactionWalletHistoryResponseInputsClass
             {
@@ -163,8 +160,6 @@ namespace ElectrumJSONRPC.Response.Model
 
                 [DataMember]
                 public string value;
-
-                public double DoubleValue { get { return AbstractResponseClass.BtcStringDoubleValue(value); } }
             }
         }
     }
