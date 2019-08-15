@@ -3,7 +3,6 @@
 // Electrum-3.3.8
 ////////////////////////////////////////////////
 
-using System;
 using System.Runtime.Serialization;
 
 namespace ElectrumJSONRPC.Response.Model

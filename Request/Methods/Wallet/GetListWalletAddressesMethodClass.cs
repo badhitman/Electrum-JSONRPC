@@ -29,6 +29,10 @@ namespace ElectrumJSONRPC.Request.Methods.Wallet
 
         }
 
+        /// <summary>
+        /// Ответ разный в зависимости от параметров метода. Оин формат ответа это просто массив адресов, а другой вариант подразумевает ещё информацию о балансе и метке адреса
+        /// </summary>
+        /// <returns></returns>
         public override object execute()
         {
             if (receiving != null)

@@ -19,11 +19,22 @@ namespace ElectrumJSONRPC
             Electrum_JSONRPC_Client client = new Electrum_JSONRPC_Client("user", "user", "http://127.0.0.1", 7777);
 
             SimpleStringResponseClass response = client.GetElectrumVersion();
-            BalanceResponseClass balance = client.GetBalanceWallet();
-            response = client.CreateNewAddress();
-            object walet_addresses = client.GetListWalletAddresses();
-            WalletTransactionsHistoryResponseClass  wallet_transactions_history = client.GetTransactionsHistoryWallet(true, true);
+            Console.WriteLine(response?.result);
 
+            BalanceResponseClass balance = client.GetBalanceWallet();
+            Console.WriteLine(response.result);
+
+            response = client.CreateNewAddress();
+            Console.WriteLine(response?.result);
+
+            SimpleStringArrayResponseClass walet_addresses = client.GetListWalletAddresses(
+                filter_receiving: false, 
+                filter_change: false, 
+                filter_frozen: false, 
+                filter_unused: false, 
+                filter_funded: false);
+
+            WalletTransactionsHistoryResponseClass wallet_transactions_history = client.GetTransactionsHistoryWallet(true, true);
 
             SimpleBoolResponseClass bool_response = client.IsAddressMine(null);
             bool_response = client.ValidateAddress("");

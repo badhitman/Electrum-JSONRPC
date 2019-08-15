@@ -126,6 +126,50 @@ namespace ElectrumJSONRPC
         }
 
         /// <summary>
+        /// Получить расширеный список адресов кошелька. Вместе с Lebal и балансом
+        /// </summary>
+        public SimpleStringArrayArrayResponseClass GetExListWalletAddresses(bool? filter_receiving = null, bool? filter_change = null, bool? filter_frozen = null, bool? filter_unused = null, bool? filter_funded = null)
+        {
+            GetListWalletAddressesMethodClass electrum_list_addresses_method = new GetListWalletAddressesMethodClass(this)
+            {
+                receiving = filter_receiving,
+                change = filter_change,
+                frozen = filter_frozen,
+                unused = filter_unused,
+                funded = filter_funded,
+
+                balance = true,
+                labels = true
+            };
+
+            object list_addresses = electrum_list_addresses_method.execute();
+
+            return (SimpleStringArrayArrayResponseClass)list_addresses;
+        }
+
+        /// <summary>
+        /// Получить список адресов кошелька Lebal и балансом
+        /// </summary>
+        public SimpleStringArrayResponseClass GetListWalletAddresses(bool? filter_receiving = null, bool? filter_change = null, bool? filter_frozen = null, bool? filter_unused = null, bool? filter_funded = null)
+        {
+            GetListWalletAddressesMethodClass electrum_list_addresses_method = new GetListWalletAddressesMethodClass(this)
+            {
+                receiving = filter_receiving,
+                change = filter_change,
+                frozen = filter_frozen,
+                unused = filter_unused,
+                funded = filter_funded,
+
+                balance = null,
+                labels = null
+            };
+
+            object list_addresses = electrum_list_addresses_method.execute();
+
+            return (SimpleStringArrayResponseClass)list_addresses;
+        }
+
+        /// <summary>
         /// Получить историю биткоин адреса
         /// </summary>
         /// <param name="address">Bitcoin address</param>
@@ -140,37 +184,6 @@ namespace ElectrumJSONRPC
             AddressHistoryResponseClass addressHistoryResponseClass = (AddressHistoryResponseClass)getAddressHistoryMethodClass.execute();
 
             return addressHistoryResponseClass;
-        }
-
-        /// <summary>
-        /// Получить список адресов кошелька
-        /// </summary>
-        public object GetListWalletAddresses(bool? show_balance = null, bool? show_labels = null, bool? filter_receiving = null, bool? filter_change = null, bool? filter_frozen = null, bool? filter_unused = null, bool? filter_funded = null)
-        {
-            GetListWalletAddressesMethodClass electrum_list_addresses_method = new GetListWalletAddressesMethodClass(this)
-            {
-                receiving = filter_receiving,
-                change = filter_change,
-                frozen = filter_frozen,
-                unused = filter_unused,
-                funded = filter_funded,
-
-                balance = show_balance,
-                labels = show_labels
-            };
-
-            object list_addresses = electrum_list_addresses_method.execute();
-
-            /*if (list_addresses != null)
-            {
-                if (list_addresses is SimpleStringArrayArrayResponseClass)
-                {
-                   
-                }
-
-            }*/
-
-            return list_addresses;
         }
 
         /// <summary>
@@ -199,42 +212,20 @@ namespace ElectrumJSONRPC
         }
 
         /// <summary>
-        /// Запрашиваем версию Electrum
+        /// Создать запрос на оплату
         /// </summary>
-        public SimpleStringResponseClass GetElectrumVersion()
+        public CreatePaymentResponseClass CreatePaymentRequest(double amount, long? expiration = null, bool? force = null, string memo = null)
         {
-            VersionMethodClass versionMethodClass = new VersionMethodClass(this);
-            SimpleStringResponseClass simpleStringResponseClass = (SimpleStringResponseClass)versionMethodClass.execute();
+            CreatePaymentRequestMethodClass create_payment_request_method_class = new CreatePaymentRequestMethodClass(this)
+            {
+                amount = amount,
+                expiration = expiration,
+                force = force,
+                memo = memo
+            };
 
-            return simpleStringResponseClass;
-        }
-
-        /// <summary>
-        /// Проверка принадлежности адреса кошельку
-        /// </summary>
-        /// <param name="check_address">Проверяемы адрес</param>
-        public SimpleBoolResponseClass IsAddressMine(string check_address)
-        {
-            if (check_address == null)
-                check_address = "";
-
-            SimpleBoolResponseClass simpleBoolResponseClass = ValidateAddress(check_address);
-            if (simpleBoolResponseClass == null)
-                return null;
-
-            IsAddressMineMethodClass isAddressMineMethodClass = new IsAddressMineMethodClass(this) { address = check_address };
-            simpleBoolResponseClass = (SimpleBoolResponseClass)isAddressMineMethodClass.execute();
-
-            return simpleBoolResponseClass;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void CreatePaymentRequest()
-        {
-            CreatePaymentRequestMethodClass create_payment_request_method_class = new CreatePaymentRequestMethodClass(this) { amount = 5, expiration = 60 * 60, force = true, memo = "test" };
-            create_payment_request_method_class.execute();
+            CreatePaymentResponseClass created_payment = (CreatePaymentResponseClass)create_payment_request_method_class.execute();
+            return created_payment;
         }
 
         /// <summary>
@@ -301,6 +292,36 @@ namespace ElectrumJSONRPC
 
             ValidateAddressMethodClass validateAddressMethodClass = new ValidateAddressMethodClass(this) { address = address };
             SimpleBoolResponseClass simpleBoolResponseClass = (SimpleBoolResponseClass)validateAddressMethodClass.execute();
+
+            return simpleBoolResponseClass;
+        }
+
+        /// <summary>
+        /// Запрашиваем версию Electrum
+        /// </summary>
+        public SimpleStringResponseClass GetElectrumVersion()
+        {
+            VersionMethodClass versionMethodClass = new VersionMethodClass(this);
+            SimpleStringResponseClass simpleStringResponseClass = (SimpleStringResponseClass)versionMethodClass.execute();
+
+            return simpleStringResponseClass;
+        }
+
+        /// <summary>
+        /// Проверка принадлежности адреса кошельку
+        /// </summary>
+        /// <param name="check_address">Проверяемы адрес</param>
+        public SimpleBoolResponseClass IsAddressMine(string check_address)
+        {
+            if (check_address == null)
+                check_address = "";
+
+            SimpleBoolResponseClass simpleBoolResponseClass = ValidateAddress(check_address);
+            if (simpleBoolResponseClass == null)
+                return null;
+
+            IsAddressMineMethodClass isAddressMineMethodClass = new IsAddressMineMethodClass(this) { address = check_address };
+            simpleBoolResponseClass = (SimpleBoolResponseClass)isAddressMineMethodClass.execute();
 
             return simpleBoolResponseClass;
         }
