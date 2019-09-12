@@ -56,6 +56,9 @@ namespace ElectrumJSONRPC
         /// </summary>
         public string jsonrpc_response_raw { get; protected set; }
 
+        public string CurrentHttpStatusCode { get; protected set; }
+        public string CurrentStatusDescription { get; protected set; }
+
         #endregion
 
         public Electrum_JSONRPC_Client(string in_rpcUsername = null, string in_rpcPassword = null, string in_host = "http://127.0.0.1", int in_port = 7777, int in_id = 0)
@@ -104,6 +107,9 @@ namespace ElectrumJSONRPC
             try
             {
                 HttpWebResponse response = (HttpWebResponse)http.GetResponse();
+                CurrentHttpStatusCode = response.StatusCode.ToString();
+                CurrentStatusDescription = response.StatusDescription;
+
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
                     //Log.WriteLine("Ошибка! Код HTTP: " + response.StatusCode.ToString() + "; Описание: " + response.StatusDescription, LogStatusEnum.Alarm);

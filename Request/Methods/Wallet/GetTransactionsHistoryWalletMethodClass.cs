@@ -39,7 +39,7 @@ namespace ElectrumJSONRPC.Request.Methods.Wallet
             if (show_fees != null)
                 options.Add("show_fees", show_fees.ToString());
 
-            if (from_height != null)
+            if (from_height != null && from_height > 0)
                 options.Add("from_height", from_height.ToString());
 
             if (to_height != null)
