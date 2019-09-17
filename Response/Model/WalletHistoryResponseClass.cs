@@ -203,6 +203,11 @@ namespace ElectrumJSONRPC.Response.Model
 
         [DataMember]
         public string value;
+
+        public override string ToString()
+        {
+            return "[address:" + address + "][value:" + value + "]";
+        }
     }
 
 }
