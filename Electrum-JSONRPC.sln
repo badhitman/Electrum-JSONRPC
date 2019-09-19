@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Electrum-JSONRPC", "Electrum-JSONRPC.csproj", "{FE9D0E18-33DB-4252-A955-09BA73E94D14}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiTool", "..\MultiTool\MultiTool.csproj", "{5BF736EB-A1A3-4012-9A36-3883AF185D5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE9D0E18-33DB-4252-A955-09BA73E94D14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE9D0E18-33DB-4252-A955-09BA73E94D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE9D0E18-33DB-4252-A955-09BA73E94D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE9D0E18-33DB-4252-A955-09BA73E94D14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BF736EB-A1A3-4012-9A36-3883AF185D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BF736EB-A1A3-4012-9A36-3883AF185D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BF736EB-A1A3-4012-9A36-3883AF185D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BF736EB-A1A3-4012-9A36-3883AF185D5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0757A202-BEF4-46E7-B15E-F75BF484C8E1}
+	EndGlobalSection
+EndGlobal
